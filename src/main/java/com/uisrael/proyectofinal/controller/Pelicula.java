@@ -28,4 +28,14 @@ public class Pelicula {
         return "register";
     }
 	
+	
+	@GetMapping("/movies/registration_form")
+	public String registrarUsuario() {
+		return "login_registration_form";
+	}
+	
+	@GetMapping("/movies/login")
+	public String inicioSesion() {
+		return "login";
+	}
 }
