@@ -1,7 +1,11 @@
 package com.uisrael.proyectofinal.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@Controller
+@RequestMapping
 public class Pelicula {
 	@GetMapping
 	public String home() {
@@ -9,7 +13,19 @@ public class Pelicula {
 	}
 	
 	@GetMapping("/index")
-	public String listarReservas(){
+	public String mostrarPeliculas(){
 		return "index";
 	}
+	
+	@GetMapping("/movies")
+    public String listarPeliculas(){
+        return "movies";
+    }
+	
+	
+	@GetMapping("/movies/new")
+    public String agregarPelicula(){
+        return "register";
+    }
+	
 }
