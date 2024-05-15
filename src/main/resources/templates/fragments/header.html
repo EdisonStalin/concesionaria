@@ -1,10 +1,10 @@
 <header th:fragment="header">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" >Pelis PLUS</a>
+		<a class="navbar-brand" th:href="@{/index}">Pelis PLUS</a>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" >Películas</a>
+					<a class="nav-link" th:href="@{/index}">Películas</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" th:href="@{/movies}">Agregar Películas</a>
