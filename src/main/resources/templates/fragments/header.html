@@ -1,21 +1,33 @@
 <header th:fragment="header">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<<<<<<< HEAD
 		<a class="navbar-brand" th:href="@{/index}">Pelis PLUS</a>
+=======
+		<a class="navbar-brand" th:href="@{/MainPage}">Pelis PLUS</a>
+>>>>>>> stalin
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/index}">Películas</a>
+					<a class="nav-link" th:href="@{/MainPage}">Películas</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/movies}">Agregar Películas</a>
+					<a class="text-white nav-link" th:href="${'/addMovie'}" th:if="${isLoggedIn}">Agregar pelicula</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/top10.html}">Top 10 películas</a>
+					<a class="text-white nav-link"  th:href="${'/register'} ">Registrar</a>
 				</li>
 			</ul>
 			<div class="login-button" style="margin-left: auto;">
+<<<<<<< HEAD
 		        <a class="btn btn-warning" th:href="@{/movies/login}">Iniciar sesión</a>
 		    </div>
+=======
+		        <a class="text-white nav-link"  th:href="${'/login'}">Login</a>
+		    </div>
+		    <form  method="post" th:action="@{/logout}">
+		    	<button class="bbb text-white nav-link" type="submit" name="logout" th:if="${isLoggedIn}">Log out</button>
+            </form>
+>>>>>>> stalin
 		</div>
 	</nav>
 </header>
