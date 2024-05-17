@@ -9,24 +9,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uisrael.proyectofinal.entity.User;
+
 import com.uisrael.proyectofinal.repository.UserRepository;
 
 @Controller
 public class AppController {
-private final UserRepository userRepository;
+	
+	private final UserRepository userRepository;
 	
 	
 	public AppController(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	@GetMapping
-	public String home() {
-		return "redirect:/index";
-	}
 	
-	@GetMapping("/index")
+	@GetMapping("/")
     public String viewMainPage(Model model) {
-        return "index";
+        return "MainPage";
     }
 	
 	@PostMapping("/register")
@@ -37,7 +35,7 @@ private final UserRepository userRepository;
 	
 	@GetMapping("/register")
     public String registerPage() {
-        return "login_registration_form";
+        return "Registration";
     }
 	
 	@GetMapping("/login")
@@ -54,7 +52,7 @@ private final UserRepository userRepository;
 		if (user != null) {
 			session.setAttribute("email",email);
 			session.setAttribute("id", user.getId());
-			 return "redirect:/index";
+			 return "redirect:/MainPage";
 		}
 		
 		return "login";
@@ -68,4 +66,17 @@ private final UserRepository userRepository;
 	
 	return "redirect:/login";
 	}
+	
+	
+
+	
+	
+	
+	
+	
 }
+	
+	
+	
+	
+

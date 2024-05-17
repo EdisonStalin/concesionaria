@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Movie Star Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     <!-- Bootstrap CSS -->
@@ -52,7 +52,7 @@
       }
       .title-heading h1 {
         font-size: 67px;
-        float: left;
+        float: left; 
       }
       .btn-outline-warning{
 		color: #b19540;
@@ -74,7 +74,7 @@
 
 
 <!-- nav bar -->
-        <div class="conteiner  ">
+         <div class="conteiner  ">
             <nav class="navbar fixed-top navbar-expand-lg bg-black ">
                 <a th:href="${'/MainPage'}" class="navbar-brand text-white">MovieStar </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu"
@@ -97,7 +97,7 @@
                           <a class="text-white nav-link" th:href="${'/addMovie'}">Add Movie</a>
                       </li> 
                            
-                </div>
+                </div>         
             </nav> 
     </div>
        <!-- nav bar -->
@@ -106,30 +106,30 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="login-form bg-light mt-4 p-4">
-                    <form action="/login" th:method="post" class="row g-3">
-                        <h4>Welcome Back</h4>
+                    <form th:action="@{/register}" th:method="post" class="row g-3">
+                        <h4 style>Sign up</h4>
+                        <div class="col-12">
+                            <label>First name</label>
+                            <input type="text" name="firstName" class="form-control" placeholder="Enter your first name here">
+                        </div> <div class="col-12">
+                            <label>Last name</label>
+                            <input type="text" name="lastName" class="form-control" placeholder="Enter your last name here">
+                        </div>
                         <div class="col-12">
                             <label>Email</label>
-                            <input type="text" name="email" class="form-control" placeholder="Username">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email here">
                         </div>
+
                         <div class="col-12">
                             <label>Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <input type="password" name="password" class="form-control" placeholder="Enter your password here">
                         </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe"> Remember me</label>
-                            </div>
-                        </div>
+                        
+                    
                         <div class="col-12">
                             <button type="submit" class="btn btn-dark btn-outline-warning float-end">Login</button>
                         </div>
                     </form>
-                    <hr class="mt-4">
-                    <div class="col-12">
-                        <p class="text-center mb-0">Have not account yet? <a th:href="${'/register'}">Signup</a></p>
-                   </div>
                 </div>
             </div>
         </div>
