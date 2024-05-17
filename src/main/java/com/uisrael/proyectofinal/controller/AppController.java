@@ -22,10 +22,11 @@ public class AppController {
 		this.userRepository = userRepository;
 	}
 	
-	@GetMapping("/")
-    public String viewMainPage(Model model) {
-        return "MainPage";
-    }
+	@GetMapping
+	public String home() {
+		return "redirect:/MainPage";
+	}
+	
 	
 	@PostMapping("/register")
 	public String registerUser(User model) {
