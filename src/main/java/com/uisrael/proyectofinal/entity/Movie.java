@@ -43,27 +43,23 @@ public class Movie {
 	@Column(nullable=false, length = 150)
 	public String director;
 	
-	@Column(nullable=false, unique=true, length = 100000)
+	@Column(nullable=false, length = 100000)
 	public String poster;
 	
-	@Column(nullable=false,unique=true, length = 600)
+	@Column(nullable=false, length = 600)
 	public String plot;
 	
-	@Column(nullable=false,unique=true, length = 100000)
+	@Column(nullable=false, length = 100000)
 	private String trailerurl;
 	
 	@Column(columnDefinition = "float default 0")
 	private double rating;
 	
-	@ManyToMany
-	  @JoinTable(name = "movies_users",
-	        joinColumns = { @JoinColumn(name = "movie_id") },
-	        inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	  private Set<User> users = new HashSet<>();
+	
 
 	@ManyToMany
 	@JoinTable(name = "movies_users_ratings",
 	      joinColumns = { @JoinColumn(name = "movie_id") },
 	      inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	private Set<User> usersRated = new HashSet<>();
+	private Set<User> users = new HashSet<>();
 	}

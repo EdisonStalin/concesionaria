@@ -75,30 +75,7 @@
 
 <!-- nav bar -->
         <div class="conteiner  ">
-            <nav class="navbar fixed-top navbar-expand-lg bg-black ">
-                <a th:href="${'/MainPage'}" class="navbar-brand text-white">MovieStar </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu"
-                    aria-expanded="false" aria-lable="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-              
-                <div class="collapse navbar-collapse" id="navbarSupprtedContent">
-                    <ul class="navbar-nav  text-center">
-                        <li>
-                            <a class="text-white nav-link" th:href="${'/myList'}">My list</a>
-                        </li>
-                        <li>
-                            <a class="text-white nav-link"  th:href="${'/login'}">Login</a>
-                        </li>
-                            <li>
-                            <a class="text-white nav-link"  th:href="${'/register'}">Register</a>
-                        </li>
-                        <li>
-                          <a class="text-white nav-link" th:href="${'/addMovie'}">Add Movie</a>
-                      </li> 
-                           
-                </div>             
-            </nav> 
+           	<div class="container" th:replace="~{fragments/header::header}"></div>¿
     </div>
        <!-- nav bar -->
 

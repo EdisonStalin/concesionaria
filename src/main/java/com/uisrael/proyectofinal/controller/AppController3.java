@@ -63,10 +63,10 @@ public class AppController3 {
 		User user = userRepository.findById(userId).get();
 		Movie movie = movieRepository.findById(movieId).get();
 		
-		if (movie.getUsersRated().stream().filter(u -> u.getId() == userId).findFirst().orElse(null) == null) {
+		if (movie.getUsers().stream().filter(u -> u.getId() == userId).findFirst().orElse(null) == null) {
 			double rating = movie.getRating() == 0 ? rate : ((movie.getRating() + rate) / 2);
 			movie.setRating(rating);
-			movie.getUsersRated().add(user);
+			movie.getUsers().add(user);
 			
 			movieRepository.save(movie);
 		}

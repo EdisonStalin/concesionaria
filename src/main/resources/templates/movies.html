@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<title>Admin - Pelis Plus</title>
+	<link rel="stylesheet" th:href="@{/css/body.css}"/>
+</head>
+<body style="background-color: black !important;">
+	
+	<div class="container" th:replace="~{fragments/header::header}"></div>
+	<br>
+	<div class="container">
+		<h1>Listado de Películas</h1>
+		<div>
+			<a class="btn btn-primary" th:href="@{/movies/new}">Agregar</a>
+		</div>
+		<br>
+		<table class="table table-hover table-responsive-xl">
+			<thead class="thead-light">
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Género</th>
+					<th>Fecha Estreno</th>
+					<th>Sinopsis</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>
+						<a class="btn btn-warning">Editar</a>
+						<a class="btn btn-danger">Eliminar</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+
+</body>
+<div class="container" th:replace="~{fragments/footer::footer}"></div>
+</html>
