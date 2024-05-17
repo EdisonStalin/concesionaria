@@ -105,5 +105,28 @@ public class AppController3 {
 	}
 	
 
+	@GetMapping("/report")
+	public String mostrarPieChart(Model model) {
+		List<Movie> movies =  movieRepository.findAll();
+		model.addAttribute("movies", movies);
+		 for (Movie movie : movies) {
+		        System.out.println("Title: " + movie.getTitle() + ", Rating: " + movie.getRating());
+		    }
+		// Crear el JSON para el gráfico de Google Charts
+        StringBuilder chartData = new StringBuilder("[[\"Title\", \"Rating\"]");
+        for (Movie movie : movies) {
+            chartData.append(", [\"")
+                     .append(movie.getTitle())
+                     .append("\", ")
+                     .append(movie.getRating())
+                     .append("]");
+        }
+        chartData.append("]");
+        
+        String chartDataString = chartData.toString();
+        System.out.println("ChartData: " + chartDataString);
+        model.addAttribute("chartData", chartDataString);
+		return "Report";
+	}
 
     }
