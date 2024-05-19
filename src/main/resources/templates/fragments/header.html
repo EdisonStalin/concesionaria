@@ -7,21 +7,26 @@
 					<a class="nav-link" th:href="@{/MainPage}">Películas</a>
 				</li>
 				<li class="nav-item">
-					<a class="text-white nav-link" th:href="${'/addMovie'}" th:if="${isLoggedIn}">Agregar pelicula</a>
+					<a class="text-white nav-link" th:href="${'/addMovie'}" th:if="${userById != null && userRol == 'Admin'}">Agregar pelicula</a>
 				</li>
-				<!-- <li class="nav-item">
-					<a class="text-white nav-link"  th:href="${'/MainPage'} ">Reportes</a>
-				</li>-->
+
 				<li class="nav-item">
-					<a class="text-white nav-link"  th:href="${'/report'} ">Reportes</a>
+					<a class="text-white nav-link"  th:href="${'/report'}" th:if="${userById != null}">Reportes</a>
 				</li>
 			</ul>
-			<div class="login-button" style="margin-left: auto;">
+			<div class="login-button" style="margin-left: auto; margin-right: 5px;" th:if="${userById == null}">
 		        <a class="btn btn-warning"  th:href="${'/login'}">Iniciar Sesión</a>
 		    </div>
-		    <form  method="post" th:action="@{/logout}">
-		    	<button class="bbb text-white nav-link" type="submit" name="logout" th:if="${isLoggedIn}">Log out</button>
+			<div class="login-button" style="margin-right: 5px;" th:if="${userById == null || userRol == 'Admin'}">
+		        <a class="btn btn-success" th:href="${'/register'}">Registrate</a>
+		    </div>
+			<div class="login-button" style="margin-left: auto; margin-right: 5px;" th:if="${userById != null}">
+                 <a class="btn btn-warning"  th:href="${'/EditProfile'}">Editar Perfil</a>
+		    </div>
+		    <form  method="post" th:action="@{/logout}" th:if="${userById != null}">
+		    	<button class="btn btn-danger" type="submit" name="logout">Cerrar Sesión</button>
             </form>
+            
 		</div>
 	</nav>
 </header>

@@ -36,18 +36,45 @@ public class AppController2 {
 		}
 		
 		@GetMapping("/addMovie")
-	    public String moviePage() {
+		public String moviePage(Model model, HttpSession httpSession) {
+			Long userId=(Long)httpSession.getAttribute("id");
+			User userById = null;
+			String userRol = null;
+			
+			if(userId != null) {
+				userById = userRepository.findById(userId).get();
+				
+				if(userById != null) {
+					userRol = userById.getRol();
+				}
+			}
+
+			model.addAttribute("userById", userById);
+			model.addAttribute("userRol", userRol);
+			
 	        return "AddMovie";
 	    }
 		
 		@GetMapping("/EditProfile")
-	    public String editPage(HttpSession httpSession, Model model) {
+		public String editPage(Model model, HttpSession httpSession) {
+			Long userId=(Long)httpSession.getAttribute("id");
+			User userById = null;
+			String userRol = null;
 			
-	       Long id=(Long)httpSession.getAttribute("id");
-	       
-	       User user = userRepository.findById(id).get();
-	       model.addAttribute("user", user);
-	       
+			if(userId != null) {
+				userById = userRepository.findById(userId).get();
+				
+				if(userById != null) {
+					userRol = userById.getRol();
+				}
+			}
+	
+			model.addAttribute("user", userById);
+
+			System.out.println(userById);
+			System.out.println(userRol);
+			model.addAttribute("userById", userById);
+			model.addAttribute("userRol", userRol);
 	       
 			return "EditProfile";
 	    }

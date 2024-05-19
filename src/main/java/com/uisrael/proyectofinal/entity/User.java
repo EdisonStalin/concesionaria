@@ -44,6 +44,9 @@ public class User {
 	@Column(nullable=false, length=20)
 	private String lastName;
 	
+	@Column(nullable=true, length=50)
+	private String rol;
+	
 	@ManyToMany(mappedBy = "users")
 	Set<Movie> movies;
 }

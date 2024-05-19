@@ -29,18 +29,31 @@ public class AppController3 {
 	private UserRepository userRepository;
 	
 	@GetMapping("/MainPage")
-		    public String listMovies(Model model, String keyword, HttpSession session){
-				List<Movie> movies = keyword == null ? movieRepository.findAll() : movieRepository.findByKeyword(keyword);
-				boolean isLoggedIn = ((Long)session.getAttribute("id")) != null;
-				
-				System.out.println((Long)session.getAttribute("id"));
-				
-		        model.addAttribute("movies", movies);
-		        model.addAttribute("isLoggedIn", isLoggedIn);
-		        
-		        System.out.println("HELLO: "+ isLoggedIn);
-		        return "MainPage";
-		    }
+	public String listMovies(Model model, String keyword, HttpSession httpSession){
+		List<Movie> movies = keyword == null ? movieRepository.findAll() : movieRepository.findByKeyword(keyword);
+		Long userId=(Long)httpSession.getAttribute("id");
+		User userById = null;
+		String userRol = null;
+		
+		if(userId != null) {
+			userById = userRepository.findById(userId).get();
+			
+			if(userById != null) {
+				userRol = userById.getRol();
+			}
+		}
+
+		model.addAttribute("user", userById);
+
+		System.out.println(userById);
+		System.out.println(userRol);
+		model.addAttribute("userById", userById);
+		model.addAttribute("userRol", userRol);
+		
+        model.addAttribute("movies", movies);
+
+        return "MainPage";
+    }
 	
 	
 	@GetMapping("/myList")
@@ -106,8 +119,27 @@ public class AppController3 {
 	
 
 	@GetMapping("/report")
-	public String mostrarPieChart(Model model) {
+	public String mostrarPieChart(Model model, HttpSession httpSession) {
 		List<Movie> movies =  movieRepository.findAll();
+		Long userId=(Long)httpSession.getAttribute("id");
+		User userById = null;
+		String userRol = null;
+		
+		if(userId != null) {
+			userById = userRepository.findById(userId).get();
+			
+			if(userById != null) {
+				userRol = userById.getRol();
+			}
+		}
+
+		model.addAttribute("user", userById);
+
+		System.out.println(userById);
+		System.out.println(userRol);
+		model.addAttribute("userById", userById);
+		model.addAttribute("userRol", userRol);
+		
 		model.addAttribute("movies", movies);
 		 for (Movie movie : movies) {
 		        System.out.println("Title: " + movie.getTitle() + ", Rating: " + movie.getRating());

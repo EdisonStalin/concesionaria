@@ -82,28 +82,22 @@
             <div class="col-md-4 offset-md-4">
                 <div class="login-form bg-light mt-4 p-4">
                     <form action="/login" th:method="post" class="row g-3">
-                        <h4>Welcome Back</h4>
+                        <h4>Bienvenido</h4>
                         <div class="col-12">
-                            <label>Email</label>
-                            <input type="text" name="email" class="form-control" placeholder="Username">
+                            <label>Usuario</label>
+                            <input type="text" name="email" class="form-control" placeholder="Ingrese su correo electrónico">
                         </div>
                         <div class="col-12">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" class="form-control" placeholder="Ingrese su contraseña">
                         </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe"> Remember me</label>
-                            </div>
-                        </div>
-                        <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-dark btn-outline-warning float-end">Login</button>
+                        <div class="col-12 text-center" style="margin-top: 10px;">
+                            <button type="submit" class="btn btn-dark btn-outline-warning float-end">Ingresar</button>
                         </div>
                     </form>
                     <hr class="mt-4">
                     <div class="col-12">
-                        <p class="text-center mb-0">Have not account yet? <a th:href="${'/register'}">Signup</a></p>
+                        <p class="text-center mb-0">¿Aun no tienes una cuenta? <a th:href="${'/register'}">Registrate</a></p>
                    </div>
                 </div>
             </div>
