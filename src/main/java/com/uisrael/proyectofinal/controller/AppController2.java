@@ -3,6 +3,9 @@ package com.uisrael.proyectofinal.controller;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,15 +31,39 @@ public class AppController2 {
 			this.movieRepository = movieRepository;
 			this.userRepository=userRepository;
 		}
-	
+		
+		
+		@GetMapping("/movies")
+	    public String moviePage(Model model,HttpSession httpSession) {
+			List<Movie> movies = (List<Movie>) movieRepository.findAll();
+			
+			Long userId=(Long)httpSession.getAttribute("id");
+			User userById = null;
+			String userRol = null;
+			
+			if(userId != null) {
+				userById = userRepository.findById(userId).get();
+				
+				if(userById != null) {
+					userRol = userById.getRol();
+				}
+			}
+
+			model.addAttribute("userById", userById);
+			model.addAttribute("userRol", userRol);
+			model.addAttribute("movies", movies);
+	        return "movies";
+	        
+	    }
+		
 		@PostMapping("/addMovie")
 		public String showMovieForm(Movie movie) {
-			movieRepository.saveAndFlush(movie);
-			return "redirect:/MainPage";
+			movieRepository.save(movie);
+			return "redirect:/movies";
 		}
 		
 		@GetMapping("/addMovie")
-		public String moviePage(Model model, HttpSession httpSession) {
+		public String movieAdd(Model model, HttpSession httpSession) {
 			Long userId=(Long)httpSession.getAttribute("id");
 			User userById = null;
 			String userRol = null;
@@ -54,6 +81,48 @@ public class AppController2 {
 			
 	        return "AddMovie";
 	    }
+		
+		@GetMapping("/editMovie/{id}")
+		public String editMovie(@PathVariable long id, Model model, HttpSession httpSession) {
+			Long userId=(Long)httpSession.getAttribute("id");
+			User userById = null;
+			String userRol = null;
+			
+			if(userId != null) {
+				userById = userRepository.findById(userId).get();
+				
+				if(userById != null) {
+					userRol = userById.getRol();
+				}
+			}
+			
+	
+			model.addAttribute("movie", movieRepository.findById(id).get());
+			System.out.println(id);
+			System.out.println(userById);
+			System.out.println(userRol);
+			model.addAttribute("userById", userById);
+			model.addAttribute("userRol", userRol);
+	       
+			return "EditMovie";
+	    }
+		
+		@PostMapping("/editMovie/{id}")
+	    public String editMovieConfirm(@PathVariable long id, HttpSession httpSession, @ModelAttribute Movie movie) {
+		  movie.setId((Long) id);
+	      movieRepository.save(movie);
+	       
+	       
+			return "redirect:/movies";
+	    }
+		
+		
+		
+		@GetMapping("/movie/delete/{id}")
+		public String eliminar(@PathVariable long id, Model model) {
+			movieRepository.deleteById(id);
+			return "redirect:/movies";
+		}
 		
 		@GetMapping("/EditProfile")
 		public String editPage(Model model, HttpSession httpSession) {
@@ -102,7 +171,7 @@ public class AppController2 {
 			movieById.getUsers().remove(userById);
 			
 			userRepository.saveAndFlush(userById);
-			movieRepository.saveAndFlush(movieById);
+			movieRepository.save(movieById);
 			
 			return "redirect:/myList";
 		

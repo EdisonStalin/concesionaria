@@ -7,7 +7,7 @@
 					<a class="nav-link" th:href="@{/MainPage}">Películas</a>
 				</li>
 				<li class="nav-item">
-					<a class="text-white nav-link" th:href="${'/addMovie'}" th:if="${userById != null && userRol == 'Admin'}">Agregar pelicula</a>
+					<a class="text-white nav-link" th:href="${'/movies'}" th:if="${userById != null && userRol == 'Admin'}">Agregar pelicula</a>
 				</li>
 
 				<li class="nav-item">

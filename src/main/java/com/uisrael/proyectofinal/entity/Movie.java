@@ -1,5 +1,6 @@
 package com.uisrael.proyectofinal.entity;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +40,9 @@ public class Movie {
 	
 	@Column(length = 150)
 	public String genre;
+
+	@Column(nullable=false)
+	private Date relase_date;
 	
 	@Column(nullable=false, length = 150)
 	public String director;

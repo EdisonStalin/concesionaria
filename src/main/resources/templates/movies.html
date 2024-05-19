@@ -5,37 +5,42 @@
 	<title>Admin - Pelis Plus</title>
 	<link rel="stylesheet" th:href="@{/css/body.css}"/>
 </head>
-<body style="background-color: black !important;">
+<body class="bg-dark bg-black1 text-white" >
 	
 	<div class="container" th:replace="~{fragments/header::header}"></div>
 	<br>
 	<div class="container">
 		<h1>Listado de Películas</h1>
 		<div>
-			<a class="btn btn-primary" th:href="@{/movies/new}">Agregar</a>
+			<a class="btn btn-primary" th:href="@{/addMovie}">Agregar</a>
 		</div>
 		<br>
-		<table class="table table-hover table-responsive-xl">
+		<table class="table taxttable-hover table-responsive-xl text-white">
 			<thead class="thead-light">
 				<tr>
 					<th>ID</th>
-					<th>Nombre</th>
+					<th>Título</th>
+					<th>Director</th>
 					<th>Género</th>
-					<th>Fecha Estreno</th>
-					<th>Sinopsis</th>
-					<th>Action</th>
+					<th>Fecha de extreno</th>
+					<th>Url Imager</th>
+					<th>Descripción</th>
+					<th>Url Trailer</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
-					<td>1</td>
+				<tr th:each="movie:${movies}">
+					<td>[[${movie.id}]]</td>
+					<td>[[${movie.title}]]</td>
+					<td>[[${movie.director}]]</td>
+					<td>[[${movie.genre}]]</td>
+					<td>[[${movie.relase_date}]]</td>
+					<td>[[${movie.poster}]]</td>
+					<td>[[${movie.plot}]]</td>
+					<td>[[${movie.trailerurl}]]</td>
 					<td>
-						<a class="btn btn-warning">Editar</a>
-						<a class="btn btn-danger">Eliminar</a>
+						<a th:href="@{/editMovie/}+${movie.id}" class="btn btn-warning">Editar</a>
+						<a th:href="@{/movie/delete/}+${movie.id}" class="btn btn-danger">Eliminar</a>
 					</td>
 				</tr>
 			</tbody>

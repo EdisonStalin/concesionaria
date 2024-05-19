@@ -30,7 +30,7 @@ public class AppController3 {
 	
 	@GetMapping("/MainPage")
 	public String listMovies(Model model, String keyword, HttpSession httpSession){
-		List<Movie> movies = keyword == null ? movieRepository.findAll() : movieRepository.findByKeyword(keyword);
+		List<Movie> movies = keyword == null ? (List<Movie>) movieRepository.findAll() : movieRepository.findByKeyword(keyword);
 		Long userId=(Long)httpSession.getAttribute("id");
 		User userById = null;
 		String userRol = null;
@@ -120,7 +120,7 @@ public class AppController3 {
 
 	@GetMapping("/report")
 	public String mostrarPieChart(Model model, HttpSession httpSession) {
-		List<Movie> movies =  movieRepository.findAll();
+		List<Movie> movies =  (List<Movie>) movieRepository.findAll();
 		Long userId=(Long)httpSession.getAttribute("id");
 		User userById = null;
 		String userRol = null;
