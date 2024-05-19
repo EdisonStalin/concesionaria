@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -34,26 +35,29 @@ public class Movie {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column( unique=true, length = 150)
+	 @NotBlank(message = "El título no puede estar en blanco")
+	@Column(  length = 150)
 	public String title;
-	
+	 @NotBlank(message = "El Género no puede estar en blanco")
 	@Column(length = 150)
 	public String genre;
-	
-	@Column(nullable=false, length = 150)
+	 @NotBlank(message = "El nombre del director no puede estar en blanco")
+	@Column( length = 150)
 	public String director;
-	
-	@Column(nullable=false, length = 100000)
+	@NotBlank
+	 @NotBlank(message = "Ingrese un imagen referenta a la película (URL)")
+	@Column(  length = 100000)
 	public String poster;
-	
-	@Column(nullable=false, length = 600)
+ 
+	@Column(  length = 600)
 	public String plot;
-	
-	@Column(nullable=false, length = 100000)
-	private String trailerurl;
-	
+ 
+
 	@Column(columnDefinition = "float default 0")
 	private double rating;
+	
+	@Column(length = 150)
+	private String comment;
 	
 	
 

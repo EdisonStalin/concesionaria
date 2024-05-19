@@ -78,24 +78,20 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class=" bg-light mt-4 p-4">
-                       <form th:action="@{/addMovie}" th:object="${movie}" th:method="post" class="row g-3">
+                       <form th:action="@{/addMovie}" th:method="post" class="row g-3">
                         <h5 style="font-weight: bold">Agregar nueva Película</h5>
                         
                         <div class="col-12">
                             <label>Título</label>
-                            <input type="text" name="title" th:field="*{title}" class="form-control" placeholder="TÍtulo de la película">
-                           
-                         	<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error de title</span> 
+                            <input type="text" name="title" class="form-control" placeholder="TÍtulo de la película">
                         </div>
                         <div class="col-12">
                             <label>Director</label>
-                            <input type="text" name="director" th:field="*{director}" class="form-control" placeholder="Nombre del director">
-                            <span th:if="${#fields.hasErrors('director')}" th:errors="*{director}">Error de title</span> 
+                            <input type="text" name="director" class="form-control" placeholder="Nombre del director">
                         </div>
                          <div class="col-12">
                             <label>Género</label>
-                            <input type="text" name="genre" th:field="*{genre}" class="form-control" placeholder="Género de la película">
-                            <span th:if="${#fields.hasErrors('genre')}" th:errors="*{director}">Error de title</span> 
+                            <input type="text" name="genre" class="form-control" placeholder="Género de la película">
                         </div>
                         <div class="col-12">
                             <label>URL Imagen</label>
@@ -104,6 +100,10 @@
                         <div class="col-12">
                             <label>Descripción</label>
                             <input type="text" name="plot" class="form-control" placeholder="Más información...">
+                        </div>
+                        <div class="col-12">
+                            <label>URL Trailer</label>
+                            <input type="text" name="trailerurl" class="form-control" placeholder="URL del Trailer">
                         </div>
                         
                         <div class="col-12">

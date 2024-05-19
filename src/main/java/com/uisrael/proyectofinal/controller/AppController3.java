@@ -42,7 +42,40 @@ public class AppController3 {
 		        return "MainPage";
 		    }
 	
-	
+	@PostMapping("/addStarAndComment/{movieId}")
+	public String addStarAndComment(@RequestParam Long rate, @RequestParam String comment, @PathVariable("movieId") Long movieId, HttpSession session) {
+	    // Obtener el usuario de la sesión
+	    Long userId = (Long) session.getAttribute("id");
+	    User user = userRepository.findById(userId).orElse(null);
+
+	    if (user == null) {
+	        // Manejar el caso cuando el usuario no está autenticado
+	        return "redirect:/login"; // Redirigir al formulario de inicio de sesión
+	    }
+
+	    // Obtener la película
+	    Movie movie = movieRepository.findById(movieId).orElse(null);
+
+	    if (movie != null) {
+	        // Verificar si el usuario ya ha valorado la película
+	        if (movie.getUsers().stream().noneMatch(u -> u.getId().equals(userId))) {
+	            // Calcular el nuevo rating
+	            double newRating = (movie.getRating() + rate) / 2;
+
+	            // Asignar el nuevo rating y el comentario
+	            movie.setRating(newRating);
+	            movie.setComment(comment);
+
+	            // Agregar el usuario a la lista de usuarios que han valorado la película
+	            movie.getUsers().add(user);
+
+	            // Guardar la película
+	            movieRepository.save(movie);
+	        }
+	    }
+
+	    return "redirect:/MainPage";
+	}
 	@GetMapping("/myList")
 	public String myList(Model model, HttpSession session) {
 		Long id=(Long)session.getAttribute("id");
@@ -55,9 +88,10 @@ public class AppController3 {
 	
 	
 	@PostMapping("/addStar/{movieId}")
-	public String addStar(@RequestParam Long rate, @PathVariable("movieId") Long movieId, HttpSession session) {
+	public String addStar(@RequestParam Long rate,@RequestParam String comment, @PathVariable("movieId") Long movieId, HttpSession session) {
 		System.out.println("Rate: " + rate);
 		System.out.println("Movie id: " + movieId);
+		 System.out.println("Comment: " + comment);
 		Long userId=(Long)session.getAttribute("id");
 		
 		User user = userRepository.findById(userId).get();
@@ -66,13 +100,35 @@ public class AppController3 {
 		if (movie.getUsers().stream().filter(u -> u.getId() == userId).findFirst().orElse(null) == null) {
 			double rating = movie.getRating() == 0 ? rate : ((movie.getRating() + rate) / 2);
 			movie.setRating(rating);
+			movie.setComment(comment);
 			movie.getUsers().add(user);
-			
 			movieRepository.save(movie);
 		}
 		
 		return "redirect:/MainPage";
 	}
+	
+	@PostMapping("/addComment/{movieId}")
+	public String addComment(@RequestParam String comment, @PathVariable("movieId") Long movieId, HttpSession session) {
+	    Long userId = (Long) session.getAttribute("id");
+
+	    if (userId == null) {
+	        // Manejar el caso cuando el usuario no está autenticado
+	        return "redirect:/login"; // Redirigir al formulario de inicio de sesión
+	    }
+
+	    Movie movie = movieRepository.getOne(movieId); // Obtener una referencia a la entidad Movie
+	    User user = userRepository.findById(userId).orElse(null);
+
+	    if (movie != null && user != null) {
+	        // Agregar el comentario al objeto Movie y guardar en la base de datos
+	        movie.setComment(comment);
+	        movieRepository.save(movie);
+	    }
+
+	    return "redirect:/MainPage";
+	}
+
 	
 	@PostMapping("/addToFav/{movieId}")
 	public String addToFav(HttpSession httpSession, @PathVariable("movieId") Long movieId) {
@@ -103,7 +159,6 @@ public class AppController3 {
 		
 		return "redirect:/MainPage";
 	}
-	
 
 	@GetMapping("/report")
 	public String mostrarPieChart(Model model) {

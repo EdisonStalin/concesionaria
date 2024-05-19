@@ -2,9 +2,11 @@ package com.uisrael.proyectofinal.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,15 +32,24 @@ public class AppController2 {
 		}
 	
 		@PostMapping("/addMovie")
-		public String showMovieForm(Movie movie) {
-			movieRepository.saveAndFlush(movie);
+		public String showMovieForm(@Valid  @ModelAttribute("movie")  Movie movie , BindingResult bindingResult , Model model) {
+			  if(bindingResult.hasErrors()){
+			
+			return "addMovie";
+			  }
+			  else {
+				  movieRepository.saveAndFlush(movie);
 			return "redirect:/MainPage";
+			  }
 		}
+ 
+	
 		
-		@GetMapping("/addMovie")
-	    public String moviePage() {
-	        return "AddMovie";
-	    }
+		  @GetMapping("/addMovie")
+		    public String showMovieForm(Model model) {
+		        model.addAttribute("movie", new Movie());
+		        return "addMovie";
+		    }
 		
 		@GetMapping("/EditProfile")
 	    public String editPage(HttpSession httpSession, Model model) {
