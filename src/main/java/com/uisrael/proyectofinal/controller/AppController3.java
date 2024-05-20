@@ -2,6 +2,7 @@ package com.uisrael.proyectofinal.controller;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisrael.proyectofinal.entity.Movie;
 import com.uisrael.proyectofinal.entity.User;
@@ -88,25 +90,47 @@ public class AppController3 {
 	
 	
 	@PostMapping("/addStar/{movieId}")
-	public String addStar(@RequestParam Long rate,@RequestParam String comment, @PathVariable("movieId") Long movieId, HttpSession session) {
-		System.out.println("Rate: " + rate);
-		System.out.println("Movie id: " + movieId);
-		 System.out.println("Comment: " + comment);
-		Long userId=(Long)session.getAttribute("id");
-		
-		User user = userRepository.findById(userId).get();
-		Movie movie = movieRepository.findById(movieId).get();
-		
-		if (movie.getUsers().stream().filter(u -> u.getId() == userId).findFirst().orElse(null) == null) {
-			double rating = movie.getRating() == 0 ? rate : ((movie.getRating() + rate) / 2);
-			movie.setRating(rating);
-			movie.setComment(comment);
-			movie.getUsers().add(user);
-			movieRepository.save(movie);
-		}
-		
-		return "redirect:/MainPage";
-	}
+    public String addStar(@RequestParam Long rate, @RequestParam String comment, @PathVariable("movieId") Long movieId, HttpSession session, RedirectAttributes redirectAttributes) {
+        Long userId = (Long) session.getAttribute("id");
+
+        if (userId == null) {
+            return "redirect:/login"; // Redirige al usuario a la página de inicio de sesión si no está autenticado
+        }
+
+        try {
+            Optional<User> userOptional = userRepository.findById(userId);
+            Optional<Movie> movieOptional = movieRepository.findById(movieId);
+
+            if (userOptional.isEmpty() || movieOptional.isEmpty()) {
+                return "redirect:/MainPage"; // Maneja el caso donde el usuario o la película no existen
+            }
+
+            User user = userOptional.get();
+            Movie movie = movieOptional.get();
+
+            boolean userAlreadyRated = movie.getUsers().stream().anyMatch(u -> u.getId().equals(userId));
+
+            if (!userAlreadyRated) {
+                // Calcula la nueva calificación y agrega la calificación y el comentario a la película
+                double newRating = (movie.getRating() * movie.getUsers().size() + rate) / (movie.getUsers().size() + 1);
+                movie.setRating(newRating);
+                movie.setComment(comment);
+                movie.getUsers().add(user);
+                movieRepository.save(movie);
+            } else {
+                // Si el usuario ya ha valorado la película, redirige a una página informativa
+                redirectAttributes.addFlashAttribute("message", "¡Ya has valorado esta película!");
+                return "redirect:/MainPage";
+            }
+
+            return "redirect:/MainPage"; // Redirige al usuario a la página principal
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/MainPage"; // Maneja cualquier error que pueda ocurrir
+        }
+    }
+	
+	
 	
 	@PostMapping("/addComment/{movieId}")
 	public String addComment(@RequestParam String comment, @PathVariable("movieId") Long movieId, HttpSession session) {
