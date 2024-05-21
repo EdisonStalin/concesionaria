@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uisrael.proyectofinal.entity.Movie;
+import com.uisrael.proyectofinal.entity.MovieCountTrimestre;
 import com.uisrael.proyectofinal.entity.User;
+import com.uisrael.proyectofinal.repository.MovieCountTrimestreRepository;
 import com.uisrael.proyectofinal.repository.MovieRepository;
 import com.uisrael.proyectofinal.repository.UserRepository;
 
@@ -27,6 +29,8 @@ public class AppController3 {
     private MovieRepository movieRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private MovieCountTrimestreRepository trimestreRepository;
 	
 	@GetMapping("/MainPage")
 	public String listMovies(Model model, String keyword, HttpSession httpSession){
@@ -117,7 +121,7 @@ public class AppController3 {
 		return "redirect:/MainPage";
 	}
 	
-
+// seccion de reportes 
 	@GetMapping("/report")
 	public String mostrarPieChart(Model model, HttpSession httpSession) {
 		List<Movie> movies =  (List<Movie>) movieRepository.findAll();
@@ -158,7 +162,59 @@ public class AppController3 {
         String chartDataString = chartData.toString();
         System.out.println("ChartData: " + chartDataString);
         model.addAttribute("chartData", chartDataString);
+		//mostrarBarsChar(model, httpSession);
+		
 		return "Report";
 	}
+	
+	// seccion de reportes anios
+		@GetMapping("/report/bars")
+		public String mostrarBarsChar(Model model, HttpSession httpSession) {
+			List<MovieCountTrimestre> trimestre =  (List<MovieCountTrimestre>) trimestreRepository.findMovieQuarter();
+			Long userId=(Long)httpSession.getAttribute("id");
+			User userById = null;
+			String userRol = null;
+			
+			if(userId != null) {
+				userById = userRepository.findById(userId).get();
+				
+				if(userById != null) {
+					userRol = userById.getRol();
+				}
+			}
+
+			model.addAttribute("user", userById);
+
+			System.out.println(userById);
+			System.out.println(userRol);
+			model.addAttribute("userById", userById);
+			model.addAttribute("userRol", userRol);
+			
+			model.addAttribute("trimestres", trimestre);
+			/* for (MovieCountTrimestre movieCount : trimestre) {
+			        System.out.println("Title: " + movieCount.getYear() + ", Rating: " + movieCount.getQ1());
+			    }*/
+			// Crear el JSON para el gráfico de Google Charts
+	        StringBuilder chartDataBar = new StringBuilder("[[\"Anio\", \"Trimestre 1\" , \"Trimestre 2\", \"Trimestre 3\", \"Trimestre 4\"]");
+	        for (MovieCountTrimestre movieCount : trimestre) {
+	            chartDataBar.append(", [\"")
+	                     .append(movieCount.getYear())
+	                     .append("\", ")
+	                     .append(movieCount.getQ1())  // Asegúrate de que Q1, Q2, Q3, y Q4 sean de tipo entero
+	                     .append(", ")
+	                     .append(movieCount.getQ2())
+	                     .append(", ")
+	                     .append(movieCount.getQ3())
+	                     .append(", ")
+	                     .append(movieCount.getQ4())
+	                     .append("]");
+	        }
+	        chartDataBar.append("]");
+	        
+	        String chartDataString = chartDataBar.toString();
+	        System.out.println("chartDataBars: " + chartDataString);
+	        model.addAttribute("chartDataBars", chartDataString.toString());
+			return "ReportBars";
+		}
 
     }
