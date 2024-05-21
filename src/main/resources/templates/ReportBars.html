@@ -12,20 +12,25 @@
   <!-- <link rel="stylesheet" th:href="@{/css/report1.css}"/>  -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" th:inline="javascript">
-    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.load('current', { 'packages': ['bar'] });
     google.charts.setOnLoadCallback(drawChart);
+
     function drawChart() {
-      var chartData = /*[[${chartData}]]*/ '[]';
-      console.log("ChartData en la plantilla: ", chartData);
+      var chartData = /*[[${chartDataBars}]]*/ '[]';
+      //console.log("ChartData en la plantilla bars: ", chartData);
       var data = google.visualization.arrayToDataTable(JSON.parse(chartData));
 
       var options = {
-        title: 'Rating de Peliculas',
-        is3D: true,
+        chart: {
+          title: 'Pelis Plus',
+          subtitle: 'Historico trimestral de peliculas en cada año',
+        },
+        bars: 'horizontal' // Required for Material Bar Charts.
       };
 
-      var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-      chart.draw(data, options);
+      var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+      chart.draw(data, google.charts.Bar.convertOptions(options));
     }
   </script>
 </head>
@@ -33,13 +38,13 @@
 <body class="bg-dark text-white bg-black1">
   <div class="container" th:replace="~{fragments/header::header}"></div>
   <div class="container" style="text-align: center;">
-    <!-- <div id="piechart_3d" style="width: 95%; height: 85%;"></div>-->
     <div class="container" th:replace="~{reports/RButtons}"></div>
-    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+
+    <!-- footer -->
+    <div class="container" th:replace="~{fragments/footer::footer}"></div>
   </div>
 
-  <!-- footer -->
-  <div class="container" th:replace="~{fragments/footer::footer}"></div>
   <!-- footer -->
 
 
